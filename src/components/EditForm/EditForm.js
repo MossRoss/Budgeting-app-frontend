@@ -19,9 +19,12 @@ function EditForm() {
 
   async function handleFetchData() {
     try {
-      let { data } = await axios.get(
-        `http://localhost:3001/transactions/${id}`
-      );
+      const url =
+        process.env.NODE_ENV === "production"
+          ? `https://budgeting-app-fronend-deployed.onrender.com/transactions/${id}`
+          : `http://localhost:3001/transactions/${id}`;
+
+      let { data } = await axios.get(url);
 
       const { item_name, amount, date, from, category } = data;
       setItemNameState(item_name);
@@ -37,7 +40,12 @@ function EditForm() {
   async function handleOnSubmit(e) {
     e.preventDefault();
     try {
-      await axios.put(`http://localhost:3001/transactions/${id}`, {
+      const url =
+        process.env.NODE_ENV === "production"
+          ? `https://budgeting-app-fronend-deployed.onrender.com/${id}`
+          : `http://localhost:3001/transactions/${id}`;
+
+      await axios.put(url, {
         itemName: itemNameState,
         amount: amountState,
         date: dateState,

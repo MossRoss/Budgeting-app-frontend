@@ -18,8 +18,12 @@ function TransactionForm() {
     e.preventDefault();
 
     try {
-      await axios.post("http://localhost:3001/transactions/ ");
+      const url =
+        process.env.NODE_ENV === "production"
+          ? `https://budgeting-app-fronend-deployed.onrender.com/transactions/`
+          : `http://localhost:3001/transactions/`;
 
+      await axios.post(url, { ...data });
       alert("Successful post");
       navigate("/transactions");
     } catch (e) {

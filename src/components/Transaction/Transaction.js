@@ -13,8 +13,13 @@ function Transaction() {
   const navigate = useNavigate();
 
   async function handleDeleteById(id) {
+    const url =
+      process.env.NODE_ENV === "production"
+        ? `https://budgeting-app-fronend-deployed.onrender.com/transactions/${id}`
+        : `http://localhost:3001/transactions/${id}`;
+
     try {
-      await axios.delete(`http://localhost:3001/transactions/${id}`);
+      await axios.delete(url);
       navigate("/transactions");
     } catch (e) {
       console.log(e);
@@ -23,12 +28,6 @@ function Transaction() {
 
   async function handleEditById(id) {
     navigate(`/transactions/${id}/edit`);
-    //     try {
-    //       await axios.put(`http://localhost:3001/transactions/${id}`);
-    //       navigate("/transactions");
-    //     } catch (e) {
-    //       console.log(e);
-    //     }
   }
 
   useEffect(() => {
@@ -37,7 +36,12 @@ function Transaction() {
 
   async function fetchData() {
     try {
-      let result = await axios.get(`http://localhost:3001/transactions/${id}`);
+      const url =
+        process.env.NODE_ENV === "production"
+          ? `https://budgeting-app-fronend-deployed.onrender.com/transactions/${id}`
+          : `http://localhost:3001/transactions/${id}`;
+
+      let result = await axios.get(url);
       setData(result.data);
     } catch (e) {
       console.log(e);
@@ -47,7 +51,7 @@ function Transaction() {
   return (
     <div className="transaction-container">
       <div>
-        <h3>Show</h3>
+        <h2>Show</h2>
 
         <div className="transaction-container-content">
           <p>{data?.item_name} </p>

@@ -13,7 +13,12 @@ function Transactions() {
 
   async function fetchData() {
     try {
-      let result = await axios.get("http://localhost:3001/transactions/ ");
+      const url =
+        process.env.NODE_ENV === "production"
+          ? `https://budgeting-app-fronend-deployed.onrender.com/transactions/`
+          : `http://localhost:3001/transactions/`;
+
+      let result = await axios.get(url);
       setTransactionsArray(result.data);
     } catch (e) {
       console.log(e);
@@ -22,7 +27,7 @@ function Transactions() {
 
   return (
     <div>
-      <h2 className="h2-title">Bank Account Total: 133</h2>
+      <h2 className="h2-title">Bank Account Total: 10,500</h2>
       <div className="table-container">
         <table id="transactions">
           <tbody>
@@ -31,36 +36,38 @@ function Transactions() {
               <th>Category</th>
               <th>Amount</th>
             </tr>
-            {transactionsArray.map(({ date, category, amount, id }) => {
-              return (
-                <tr key={id}>
-                  <td>
-                    <Link
-                      className="transactions-link"
-                      to={`/transactions/${id}`}
-                    >
-                      {date}
-                    </Link>
-                  </td>
-                  <td>
-                    <Link
-                      className="transactions-link"
-                      to={`/transactions/${id}`}
-                    >
-                      {category}
-                    </Link>
-                  </td>
-                  <td>
-                    <Link
-                      className="transactions-link"
-                      to={`/transactions/${id}`}
-                    >
-                      {amount}
-                    </Link>
-                  </td>
-                </tr>
-              );
-            })}
+            {transactionsArray.map(
+              ({ item_name, from, date, category, amount, id }) => {
+                return (
+                  <tr key={id}>
+                    <td>
+                      <Link
+                        className="transactions-link"
+                        to={`/transactions/${id}`}
+                      >
+                        {date}
+                      </Link>
+                    </td>
+                    <td>
+                      <Link
+                        className="transactions-link"
+                        to={`/transactions/${id}`}
+                      >
+                        {category}
+                      </Link>
+                    </td>
+                    <td>
+                      <Link
+                        className="transactions-link"
+                        to={`/transactions/${id}`}
+                      >
+                        {amount}
+                      </Link>
+                    </td>
+                  </tr>
+                );
+              }
+            )}
           </tbody>
         </table>
       </div>
