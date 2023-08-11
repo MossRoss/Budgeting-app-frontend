@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { useParams } from "react-router-dom";
+import { redirect, useParams, useNavigate } from "react-router-dom";
 
 import "./EditForm.css";
 
 function EditForm() {
+  const navigate = useNavigate();
   const { id } = useParams();
 
   const [itemNameState, setItemNameState] = useState("");
@@ -55,6 +56,7 @@ function EditForm() {
       console.log(categoryState);
 
       alert("Updated sucessfully");
+      navigate("/transactions");
     } catch (e) {
       console.log(e.response);
     }
